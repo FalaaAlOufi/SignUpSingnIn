@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     ProgressDialog PD;
 
+    private static final String TAG = "EmailPassword";
 
 
     @Override    protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +40,30 @@ public class MainActivity extends AppCompatActivity {
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override            public void onClick(View view) {
-                auth.signOut();
-                FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
-                    @Override
-                    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                        FirebaseUser user = firebaseAuth.getCurrentUser();
-                        if (user == null) {
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                            finish();
-                        }
-                    }
-                };
+                try {
+                    auth.signOut();
+                    Toast.makeText(MainActivity.this, "User Sign out!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                     startActivity(intent);
+                }catch (Exception e) {
+                    Log.e(TAG, "onClick: Exception "+e.getMessage(),e );
+                }
+
+              //  auth.signOut();
+              //  FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
+               //     @Override
+               //     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                //        FirebaseUser user = firebaseAuth.getCurrentUser();
+                //        if ( user == null) {
+                          //   startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                  //         finish();
+                          //  finishAffinity();
+                   //     }
+                //    }
+              //  };
+              //  auth.addAuthStateListener(authListener);
+              //  Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+              //  startActivity(intent);
             }
         });
 

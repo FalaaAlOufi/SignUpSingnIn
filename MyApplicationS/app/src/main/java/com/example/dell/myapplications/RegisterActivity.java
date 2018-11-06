@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    private static final String TAG = "EmailPassword";
+
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
     private Button btnSignUp, btnLogin;
@@ -59,13 +61,17 @@ public class RegisterActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (!task.isSuccessful()) {
+                                          //  Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                             Toast.makeText(
                                                     RegisterActivity.this,
                                                     "Authentication Failed",
                                                     Toast.LENGTH_LONG).show();
-                                            Log.v("error", task.getResult().toString());
+                                        //    Log.v("error", task.getResult().toString());
+
+
                                         } else {
                                             Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        //    Log.d(TAG, "createUserWithEmail:success");
                                             startActivity(intent);
                                             finish();
                                         }
